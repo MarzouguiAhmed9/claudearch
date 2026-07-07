@@ -336,6 +336,160 @@ Both are advisory (add context, don't block). They keep agents oriented on the c
 
 ---
 
+## Setup — full walkthrough
+
+Real end-to-end example. Say you're starting a new project called **`api-gateway`** — a Go + Gin backend deployed to k8s.
+
+### Step 1 — Create + clone
+
+```bash
+mkdir -p ~/Desktop/api-gateway && cd ~/Desktop/api-gateway
+git init
+git clone https://github.com/MarzouguiAhmed9/claudearch
+```
+
+Directory now:
+```
+~/Desktop/api-gateway/
+├── .git/
+└── claudearch/         ← the cloned repo (source)
+    ├── .claude/
+    ├── CLAUDE.md
+    └── README.md
+```
+
+### Step 2 — Open Claude Code + run setup
+
+```bash
+claude    # or open your Claude Code IDE in this folder
+```
+
+Then type:
+```
+/setup
+```
+
+### Step 3 — What the agent does
+
+**Phase 1 — Existing `.claude/` check**
+```
+Mode: SETUP
+No existing .claude/ detected — CLEAN install.
+Proceeding.
+```
+
+**Phase 2 — Ask project identity**
+```
+New project name (short slug):
+Primary stack:
+Git remote URL:
+Deploy target:
+```
+
+You answer:
+```
+api-gateway
+go + gin
+git@github.com:me/api-gateway.git
+k8s
+```
+
+**Phase 3 — Copy**
+```
+cp -r ./claudearch/.claude ./
+cp ./claudearch/CLAUDE.md ./
+✓ 14 skills copied
+✓ 8 agents copied
+```
+
+**Phase 4 — Adapt `CLAUDE.md`**
+```
+Adapted CLAUDE.md:
+  - 12 "garnet" → "api-gateway"
+  - 3 path refs updated
+  - 4 garnet-specific sections commented out:
+      • Team table (Ahmed/Seb/Ion/Nicu/Ahmed B)
+      • FastAPI + Svelte + Presidio stack
+      • cVM 65.108.38.50
+      • Harbor harbor.enclaive.cloud/garnetdemo/
+  - Backup saved: CLAUDE.md.bak
+
+Review commented-out sections and either restore or delete.
+```
+
+**Phase 5 — Verify**
+```
+Skills:   14/14 ✓
+Agents:   8/8 ✓
+MCPs:     3 connected / 9 configured
+
+Missing MCPs (run to install):
+  claude mcp add kubernetes -- npx -y kubernetes-mcp-server@latest
+  claude mcp add helm -- npx -y @zekker6/mcp-helm@latest
+  claude mcp add argocd -- npx -y argocd-mcp@latest
+  claude mcp add semgrep -- npx -y semgrep-mcp@latest
+  claude mcp add python-testing -- npx -y @jazzberry-ai/python-testing-mcp@latest
+  claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
+```
+
+Setup does NOT auto-install — copy/paste the commands you want.
+
+**Phase 6 — Report**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Setup complete: api-gateway
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Skills:   14/14 ✓
+Agents:   8/8 ✓
+MCPs:     3 configured, 6 pending
+
+Next:
+  1. Review CLAUDE.md commented sections
+  2. Delete or restore team table, adapt to your team
+  3. Run: /coach
+  4. Optional: graphify update .
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### Step 4 — Clean up + first task
+
+Remove the cloned source directory (no longer needed):
+```bash
+rm -rf ./claudearch
+```
+
+Verify + get first suggested task:
+```
+/coach
+```
+
+Coach runs SELF-CHECK, then asks what you want to build. Say `I want to add a rate limiter` and you get:
+```
+Route:
+1. planner QUICK — Blueprint the rate limiter feature → 05-tasks.md
+2. implementer EXECUTE — Read the tasks, write Go code, run tests
+
+Start with: "plan a rate limiter feature"
+```
+
+### Step 5 — Now you have the full arch
+
+Every skill, agent, MCP, plugin from garnet — working in your new project.
+
+---
+
+### Common gotchas
+
+| Symptom | Fix |
+|---|---|
+| `/setup` says "clone first" | You forgot to `git clone https://github.com/MarzouguiAhmed9/claudearch` inside the project dir |
+| `/coach` reports "Skills: 0/14" | You ran `/coach` from a parent dir — `cd` into the project first |
+| MCPs all show ✗ Failed | Normal on first probe — they auto-install on first real use OR you skipped the `claude mcp add` commands |
+| CLAUDE.md still says "garnet" everywhere | You ran `/setup` on an existing `.claude/` and picked SKIP — re-run with OVERWRITE, or manually edit |
+| Reviewer / infra agents refer to `.claude/docs/data.md` 🎫 but yours is empty | Normal — add first ticket via `/data ingest ticket #1 <URL>` |
+
+---
+
 ## Adapting for your project
 
 After `/setup`, review these garnet-specific items in `CLAUDE.md`:
