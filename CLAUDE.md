@@ -92,7 +92,7 @@ For infra, code review, deep planning — use these instead of skills:
 | `council` | `/council <topic>` | 3 lenses (Dev / Security / Logic) → synthesis DO/DON'T/DEFER |
 | `creative` | `/creative` | Senior creative engineer, ranked ideas across 10 dimensions |
 | `logic` | `/logic` | Brainstorm all scenarios, check coverage vs code |
-| `ahmedclaudeskill` | "use ahmedclaudeskill" / "bootstrap claude arch" | Copies canonical .claude/ live into new project |
+| `setup` | "/setup", "bootstrap claude arch" | Installs Claude arch into a NEW project from cloned `./claudearch/` repo. Adapts CLAUDE.md, verifies skills/agents/MCPs. 3-choice confirm if `.claude/` exists. |
 
 ## Load the right file
 
